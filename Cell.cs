@@ -20,6 +20,8 @@ namespace MineSweeperLogic
     }
     public class Cell
     {
+        public Cell(){}
+        
         public Cell(CellType cellType)
         {
             this.CellType = cellType;
@@ -178,6 +180,29 @@ namespace MineSweeperLogic
         }
         
         #endregion Properties
+        
+        #region Methods
+        
+        public static FlagType ChangeFlagType(Cell cell)
+        {
+            switch (cell.FlagType)
+            {
+                case FlagType.None:
+                    cell.FlagType = FlagType.Mine;
+                    break;
+                case FlagType.Mine:
+                    cell.FlagType = FlagType.Flag;
+                    break;
+                case FlagType.Flag:
+                    cell.FlagType = FlagType.None;
+                    break;
+                default:
+                    break;
+            }
+            return cell.FlagType;
+        }
+        
+        #endregion Methods
         
       }
     }  
