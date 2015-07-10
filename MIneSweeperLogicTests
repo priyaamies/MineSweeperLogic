@@ -1,0 +1,33 @@
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MineSweeperLogic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace MineSweeperUnitTests
+{
+    [TestClass]
+    public class MineSweeperTests
+    {
+        [TestMethod]
+        public void CreateBoardTest()
+        {
+            IEnumerable<CellRow> actualCellRows = InitializeBoard();
+            Assert.IsTrue(actualCellRows.Count() == 3, "Number of Cell Rows matched");
+            Assert.IsTrue(actualCellRows.Where(x => x.Cells.Any(i => i.CellType == CellType.Mine)).Count() == 1, "There was one mine found");
+        }
+ #region HelperMethods
+
+        private static IEnumerable<CellRow> InitializeBoard()
+        {
+            int size = 3;
+            float mineRate = 0.05F;
+            IEnumerable<CellRow> actualCellRows;
+            actualCellRows = Board.CreateBoard(size, mineRate);
+            return actualCellRows;
+      	}
+
+ #endregion
+    }
+}
