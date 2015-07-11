@@ -155,9 +155,7 @@ namespace MineSweeperLogic
 
         public IEnumerable<Cell> AllAdjacentCells { get { return (new Cell[] { Left, TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft }).Where(x => x != null); } }
 
-        #endregion AdjacentCellProperties
-
-        //Adjacent Blocks does not contain any mines
+        //Adjacent Cells does not contain any mines
         public bool IsFlippable
         {
             get
@@ -168,7 +166,7 @@ namespace MineSweeperLogic
             
         }
 
-        //Adjacent Blocks contains mines
+        //Adjacent Cells contains mines
         public bool IsCountable
         {
             get
@@ -178,7 +176,9 @@ namespace MineSweeperLogic
             }
             
         }
-        
+
+        #endregion AdjacentCellProperties
+
         #endregion Properties
         
         #region Methods
@@ -200,6 +200,18 @@ namespace MineSweeperLogic
                     break;
             }
             return cell.FlagType;
+        }
+        
+        public static void OpenCurrentCell(Cell cell)
+        {
+            if (cell.CellType == CellType.Mine)
+            {
+                cell.FlagType = FlagType.Flip;
+            }
+            else if (cell.FlagType == FlagType.None)
+            {
+                Board.CalculateFlippedCell(cell);               
+            }            
         }
         
         #endregion Methods
