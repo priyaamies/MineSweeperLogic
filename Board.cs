@@ -56,5 +56,23 @@ namespace MineSweeperLogic
 
             return rows;
         }
+        
+        public static IEnumerable<Cell> CalculateFlippedCell(Cell cell)
+        {
+            var result = new List<Cell>();
+            cell.FlagType = FlagType.Flip;
+            //If any adjacent is a Mine, mark as flipped and proceed
+            foreach (var b in cell.AllAdjacentCells.Where(x => x.IsCountable))
+            {
+                b.FlagType = FlagType.Flip;
+            }
+            result.Add(cell);
+            //If any adjacent cell is not a Mine, recurse to open adjacent cells
+            foreach (var b in cell.AllAdjacentCells.Where(x => x.IsFlippable))
+            {
+                result.AddRange(CalculateFlippedCell(b));
+            }
+            return result;
+        }
     }
 }
