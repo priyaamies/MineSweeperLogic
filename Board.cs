@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MineSweeperLogic
 {
-    public class Board
+    public static class Board
     {
 	public static IList<CellRow> CreateBoard(int size, float mineRate)
         {
