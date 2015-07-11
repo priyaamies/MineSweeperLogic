@@ -30,7 +30,33 @@ namespace MineSweeperUnitTests
 
             flagType = PassDifferentFlagType(cell, FlagType.Flag);
             Assert.IsTrue(flagType == FlagType.None, "Flag Type is changed to None when flagged?");
-
+        }
+        
+        [TestMethod()]
+        public void CalculateFlippedCellTest()
+        {
+            Cell flipCell = null;
+            IEnumerable<CellRow> actualCellRows = InitializeBoard();   
+         
+            var allCells = actualCellRows.First().Rows[1].Cells[1].AllCells;
+            //Verify that there is one mine
+            Assert.IsTrue(allCells.Any(i => i.CellType == CellType.Mine), "There is one mine in the board");
+            
+            //Pick the center cell to pass for calculation
+            foreach (var cell in allCells)
+            {
+                if (cell.ColumnIndex==1 && cell.RowIndex==1)
+                {
+                    cell.CellType = CellType.None;
+                    flipCell = cell;                    
+                    break;
+                }
+            }          
+            var resultblock = Board.CalculateFlippedCell(flipCell);   
+        
+            //Verify that atleast there are minecount with value 1 adjacent to current block
+            Assert.IsTrue(resultblock.Count(i => i.AllAdjacentCells.Any(j => j.MineCount==1))>1,"There is one mine surrounded");
+            
         }
  #region HelperMethods
 
