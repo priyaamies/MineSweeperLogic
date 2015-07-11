@@ -17,6 +17,21 @@ namespace MineSweeperUnitTests
             Assert.IsTrue(actualCellRows.Count() == 3, "Number of Cell Rows matched");
             Assert.IsTrue(actualCellRows.Where(x => x.Cells.Any(i => i.CellType == CellType.Mine)).Count() == 1, "There was one mine found");
         }
+        
+        [TestMethod]
+        public void ChangeFlagTypeTest()
+        {
+            Cell cell = new Cell();
+            var flagType = PassDifferentFlagType(cell,FlagType.None);
+            Assert.IsTrue(flagType == FlagType.Mine, "Flag Type is changed to Mine when None is flagged");
+
+            flagType = PassDifferentFlagType(cell, FlagType.Mine);
+            Assert.IsTrue(flagType == FlagType.Flag, "Flag Type is changed to Flag a Mine is flagged?");
+
+            flagType = PassDifferentFlagType(cell, FlagType.Flag);
+            Assert.IsTrue(flagType == FlagType.None, "Flag Type is changed to None when flagged?");
+
+        }
  #region HelperMethods
 
         private static IEnumerable<CellRow> InitializeBoard()
